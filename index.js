@@ -139,6 +139,11 @@ const promptUser = () => {
 * Email: ${email}
 
 * GitHub profile: ${github}
+
+## Table of contents
+[Project info](#project-info)
+
+[Questions](#questions)
 `;
                 writeFile(readmeContent);
                 return true;
