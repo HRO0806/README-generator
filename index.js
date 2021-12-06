@@ -17,6 +17,10 @@ const fs = require('fs');
 const arr = [];
 
 let title = "";
+let description = "";
+let usage = "";
+let contribution = "";
+let test = "";
 
 const promptUser = () => {
     return inquirer.prompt([
@@ -25,18 +29,87 @@ const promptUser = () => {
            name: 'title',
            message: 'What is the title of your project? (required)',
            validate: titleInput => {
-               if (titleInput) {
-                   arr.push(titleInput);
-                   title = arr[0];
-                   const readmeContent = `# ${title}
-                                          ## Project info`;
-                   writeFile(readmeContent);
-                   return true;
-               } else {
-                   console.log('Please enter the title of your project!');
-                   return false;
-               }
-            }    
+            if (titleInput) {
+                arr.push(titleInput);
+                title = arr[0];
+                return true;
+            } else {
+                console.log('Please enter the title of your project!');
+                return false;
+            }
+         } 
+        },
+        {
+           type: 'input',
+           name: 'description',
+           message: 'Please give a description of the project (required)',
+           validate: titleInput => {
+            if (titleInput) {
+                arr.push(titleInput);
+                description = arr[1];
+                return true;
+            } else {
+                console.log('Please give a description of the project!');
+                return false;
+            }
+         } 
+        },
+        {
+            type: 'input',
+            name: 'usage',
+            message: 'Please include some usage instructions. (required)',
+            validate: titleInput => {
+                if (titleInput) {
+                    arr.push(titleInput);
+                    usage = arr[2];
+                    return true;
+                } else {
+                    console.log('Please include some usage instructions!');
+                    return false;
+                }
+            }
+        },
+        {
+            type: 'input',
+            name: 'contribution',
+            message: 'Please include some contribution guidelines. (required)',
+            validate: titleInput => {
+                if (titleInput) {
+                    arr.push(titleInput);
+                    contribution = arr[3];
+                    return true;
+                } else {
+                    console.log('Please include some usage instructions!');
+                    return false;
+                }
+            }
+        },
+        {
+            type: 'input',
+            name: 'test',
+            message: 'Please enter some test instructions (required)',
+            validate: titleInput => {
+                if (titleInput) {
+                    arr.push(titleInput);
+                    test = arr[4];
+                    const readmeContent = `# ${title}
+    
+## Project info
+* ${description}
+
+* Usage Instructions: ${usage}
+
+* Contribution Guidelines: ${contribution}
+
+* Test instructions: ${test}
+`;
+                    writeFile(readmeContent);
+                    return true;
+                } else {
+                    console.log('Please include some usage instructions!');
+                    return false;
+                }
+            }
         }        
     ])
 }
