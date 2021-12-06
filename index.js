@@ -22,6 +22,7 @@ let usage = "";
 let contribution = "";
 let test = "";
 let email = "";
+let github = "";
 
 const promptUser = () => {
     return inquirer.prompt([
@@ -108,6 +109,21 @@ const promptUser = () => {
             if (titleInput) {
                 arr.push(titleInput);
                 email = arr[5];
+                return true;
+            } else {
+                console.log('Please enter your email adress!');
+                return false;
+            }
+        }
+      },
+      {
+          type: 'input',
+          name: 'github',
+          message: 'What is your GitHub profile? (required)',
+          validate: titleInput => {
+            if (titleInput) {
+                arr.push(titleInput);
+                github = `https://github.com/${arr[6]}`;
                 const readmeContent = `# ${title}
 
 ## Project info
@@ -121,15 +137,17 @@ const promptUser = () => {
 
 ## Questions
 * Email: ${email}
+
+* GitHub profile: ${github}
 `;
                 writeFile(readmeContent);
                 return true;
             } else {
-                console.log('Please include your email adress!');
+                console.log('Please include your GitHub profile!');
                 return false;
             }
         }
-      },        
+      }        
     ])
 }
 
