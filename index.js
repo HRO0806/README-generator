@@ -21,6 +21,7 @@ let description = "";
 let usage = "";
 let contribution = "";
 let test = "";
+let email = "";
 
 const promptUser = () => {
     return inquirer.prompt([
@@ -92,8 +93,23 @@ const promptUser = () => {
                 if (titleInput) {
                     arr.push(titleInput);
                     test = arr[4];
-                    const readmeContent = `# ${title}
-    
+                    return true;
+                } else {
+                    console.log('Please include some usage instructions!');
+                    return false;
+                }
+            }
+        },
+        {
+        type: 'input',
+        name: 'email',
+        message: 'Please enter your email adress (required)',
+        validate: titleInput => {
+            if (titleInput) {
+                arr.push(titleInput);
+                email = arr[5];
+                const readmeContent = `# ${title}
+
 ## Project info
 * ${description}
 
@@ -102,15 +118,18 @@ const promptUser = () => {
 * Contribution Guidelines: ${contribution}
 
 * Test instructions: ${test}
+
+## Questions
+* Email: ${email}
 `;
-                    writeFile(readmeContent);
-                    return true;
-                } else {
-                    console.log('Please include some usage instructions!');
-                    return false;
-                }
+                writeFile(readmeContent);
+                return true;
+            } else {
+                console.log('Please include your email adress!');
+                return false;
             }
-        }        
+        }
+      },        
     ])
 }
 
