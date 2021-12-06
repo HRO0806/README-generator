@@ -28,7 +28,8 @@ const promptUser = () => {
                if (titleInput) {
                    arr.push(titleInput);
                    title = arr[0];
-                   const readmeContent = `# ${title}`;
+                   const readmeContent = `# ${title}
+                                          ## Project info`;
                    writeFile(readmeContent);
                    return true;
                } else {
