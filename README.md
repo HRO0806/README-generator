@@ -8,3 +8,6 @@ Through the command line it asks the user questions about what the want each sec
 
 Link to walk through video:
 https://watch.screencastify.com/v/XTD7JzH6QwVFoWI7sCHo
+
+Link to my GitHub repo:
+https://github.com/HRO0806/README-generator
