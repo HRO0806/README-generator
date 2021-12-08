@@ -1,18 +1,5 @@
-// TODO: Include packages needed for this application
-
-// TODO: Create an array of questions for user input
-/*const questions = [];
-
-// TODO: Create a function to write README file
-function writeToFile(fileName, data) {}
-
-// TODO: Create a function to initialize app
-function init() {}
-
-// Function call to initialize app
-init();*/
 const inquirer = require('inquirer');
-const fs = require('fs');
+const writeFile = require('./develop/utils/generateMarkdown')
 
 const arr = [];
 
@@ -23,6 +10,7 @@ let contribution = "";
 let test = "";
 let email = "";
 let github = "";
+let license = "";
 
 const promptUser = () => {
     return inquirer.prompt([
@@ -45,9 +33,9 @@ const promptUser = () => {
            type: 'input',
            name: 'description',
            message: 'Please give a description of the project (required)',
-           validate: titleInput => {
-            if (titleInput) {
-                arr.push(titleInput);
+           validate: descriptionInput => {
+            if (descriptionInput) {
+                arr.push(descriptionInput);
                 description = arr[1];
                 return true;
             } else {
@@ -60,9 +48,9 @@ const promptUser = () => {
             type: 'input',
             name: 'usage',
             message: 'Please include some usage instructions. (required)',
-            validate: titleInput => {
-                if (titleInput) {
-                    arr.push(titleInput);
+            validate: usageInput => {
+                if (usageInput) {
+                    arr.push(usageInput);
                     usage = arr[2];
                     return true;
                 } else {
@@ -75,9 +63,9 @@ const promptUser = () => {
             type: 'input',
             name: 'contribution',
             message: 'Please include some contribution guidelines. (required)',
-            validate: titleInput => {
-                if (titleInput) {
-                    arr.push(titleInput);
+            validate: contributionInput => {
+                if (contributionInput) {
+                    arr.push(contributionInput);
                     contribution = arr[3];
                     return true;
                 } else {
@@ -90,9 +78,9 @@ const promptUser = () => {
             type: 'input',
             name: 'test',
             message: 'Please enter some test instructions (required)',
-            validate: titleInput => {
-                if (titleInput) {
-                    arr.push(titleInput);
+            validate: testInput => {
+                if (testInput) {
+                    arr.push(testInput);
                     test = arr[4];
                     return true;
                 } else {
@@ -104,14 +92,14 @@ const promptUser = () => {
         {
         type: 'input',
         name: 'email',
-        message: 'Please enter your email adress (required)',
-        validate: titleInput => {
-            if (titleInput) {
-                arr.push(titleInput);
+        message: 'Please enter your email address (required)',
+        validate: emailInput => {
+            if (emailInput) {
+                arr.push(emailInput);
                 email = arr[5];
                 return true;
             } else {
-                console.log('Please enter your email adress!');
+                console.log('Please enter your email address!');
                 return false;
             }
         }
@@ -120,14 +108,34 @@ const promptUser = () => {
           type: 'input',
           name: 'github',
           message: 'What is your GitHub profile? (required)',
-          validate: titleInput => {
-            if (titleInput) {
-                arr.push(titleInput);
+          validate: githubInput => {
+            if (githubInput) {
+                arr.push(githubInput);
                 github = `https://github.com/${arr[6]}`;
-                const readmeContent = `# ${title}
+                return true;
+            } else {
+                console.log('Please include your GitHub profile!');
+                return false;
+            }
+        }
+      },
+      {
+          type: 'checkbox',
+          name: 'languages',
+          message: 'Which license would you like to use (Please only choose one)?',
+          choices: ['MIT', 'APACHE 2.0', 'GPL 3.0', 'BSD 3'],
+          validate: (languagesCheckbox, languagesChoices) => {
+            if (languagesCheckbox) {
+                arr.push(languagesCheckbox);
+                license = arr[7];
+                const readmeContent = `                                                                        ${license}
+# ${title}
+
+## License: 
+* This is project is Licensed uner the ${license} license                     
 
 ## Project info
-* ${description}
+* Description: ${description}
 
 * Usage Instructions: ${usage}
 
@@ -145,32 +153,17 @@ const promptUser = () => {
 
 [Questions](#questions)
 `;
+
                 writeFile(readmeContent);
                 return true;
             } else {
-                console.log('Please include your GitHub profile!');
+                console.log('Choose a license (Only one please)!');
                 return false;
             }
         }
-      }        
+      }      
     ])
 }
-
-const writeFile = fileContent => {
-    return new Promise((resolve, reject) => {
-      fs.writeFile('develop/dist/generated.md', fileContent, err => {
-        if (err) {
-          reject(err);
-          return;
-        }
-  
-        resolve({
-          ok: true,
-          message: 'File created!'
-        });
-      });
-    });
-  };
 
 promptUser();
 
